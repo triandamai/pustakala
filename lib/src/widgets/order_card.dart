@@ -1,4 +1,5 @@
 import 'package:Pustakala/src/models/minat.dart';
+import 'package:Pustakala/src/pages/order_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -177,6 +178,8 @@ class _OrderCardState extends State<OrderCard> {
         .child(_uid)
         .child(widget.minat.key)
         .remove();
+    OrderPage orderPage;
+    orderPage.createState();
   }
 
   void add() async {

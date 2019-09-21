@@ -4,6 +4,7 @@ import 'package:Pustakala/src/widgets/book_category.dart';
 import 'package:Pustakala/src/widgets/home_top_info.dart';
 import 'package:Pustakala/src/widgets/search_field.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/book_model.dart';
@@ -67,59 +68,77 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
-          child: Column(
-            children: <Widget>[
-              HomeTopInfo(),
-              BookCategory(),
-              SizedBox(
-                height: 20.0,
-              ),
-              SearchField(),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Scaffold(
+      body: DefaultTabController(
+        length: 2,
+        child: NestedScrollView(
+            headerSliverBuilder: (BuildContext ctx, bool inner) {
+              return <Widget>[
+                SliverAppBar(
+                    backgroundColor: Colors.white,
+                    expandedHeight: 250,
+                    floating: false,
+                    pinned: true,
+                    flexibleSpace: Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 50.0,
+                          ),
+                          HomeTopInfo(),
+                          BookCategory(),
+                        ],
+                      ),
+                    ),
+                    bottom: PreferredSize(
+                      child: SearchField(),
+                      preferredSize: null,
+                    )),
+              ];
+            },
+            body: Container(
+              padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+              child: Column(
                 children: <Widget>[
-                  Text(
-                    "Populer",
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Populer",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PopularPage()));
+                        },
+                        child: Text(
+                          "Lihat semua",
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PopularPage()));
-                    },
-                    child: Text(
-                      "Lihat semua",
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColor),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Flexible(
+                    child: new ListView.builder(
+                      itemCount: _books.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        print(_books.length);
+                        return _buildBookItems(_books[index]);
+                      },
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Flexible(
-                child: new ListView.builder(
-                  itemCount: _books.length,
-                  itemBuilder: (BuildContext ctx, int index) {
-                    print(_books.length);
-                    return _buildBookItems(_books[index]);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
+            )),
       ),
     );
   }
