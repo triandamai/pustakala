@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "601916008916",
+    "firebase_url": "https://pustakala-1aa9e.firebaseio.com",
+    "project_id": "pustakala-1aa9e",
+    "storage_bucket": "pustakala-1aa9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601916008916:android:993958fe9a49a69516ce41",
+        "android_client_info": {
+          "package_name": "com.example.Pustakala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601916008916-hffn3t9fcjg7d0n7ah40oaf6q8skp4fr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.Pustakala",
+            "certificate_hash": "300a4fcd839874691fb8ebe8951336fb99f6d55b"
+          }
+        },
+        {
+          "client_id": "601916008916-mpu3lgd3vhg658vbpm260jb147m43914.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-7pgev_zCrltKDx9GOXvySHgFP48rTo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601916008916-mpu3lgd3vhg658vbpm260jb147m43914.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,37 @@
+aku user
+	- uid(auth)
+		- nama
+		- email
+		- foto
+		- 
+
+buku
+	- id(push)
+		- gambar
+		- judul
+		- file
+		- deskripsi
+		- harga
+		- diupload 	
+		- ulasan
+
+minat
+	- uid(user)
+		-id(push)
+			- id(buku)
+			- jumlah
+
+pesanan 
+	- uid(user)
+		id(push)
+			- id(buku)
+			- diskon
+			- ppn
+			- lunas
+
+ordeby kategori
+orderby ulasan >= 20 ulasan	
+			
+
+
+		 
