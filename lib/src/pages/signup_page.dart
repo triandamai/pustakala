@@ -93,6 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         'uid': '${user.uid}',
                         'email': _email.text,
                         'foto': "",
+                        'role': false,
                       }).then((_) {
                         print("tersimpan");
                         setState(() {

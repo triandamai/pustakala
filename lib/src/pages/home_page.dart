@@ -77,7 +77,8 @@ class _HomePageState extends State<HomePage> {
                     floating: false,
                     pinned: true,
                     flexibleSpace: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      margin: EdgeInsets.only(
+                          left: 10, right: 10, top: 10, bottom: 14),
                       child: Column(
                         children: <Widget>[
                           SizedBox(
