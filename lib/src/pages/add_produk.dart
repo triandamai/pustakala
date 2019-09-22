@@ -32,7 +32,11 @@ class _AddProdukState extends State<AddProduk> {
   String _uoloadedImageUrl;
   String dropdownValue = 'Pilih Kategori';
   FirebaseAuth _auth = FirebaseAuth.instance;
+//save the result of gallery file
+  File galleryFile;
 
+//save the result of camera file
+  File cameraFile;
   @override
   void initState() {
     // TODO: implement initState
@@ -59,25 +63,16 @@ class _AddProdukState extends State<AddProduk> {
                     height: 10,
                   ),
                   Center(
-                    child: _image == null
-                        ? Text(
-                            "Gagal mengambil gambar",
-                            textAlign: TextAlign.center,
-                          )
-                        : new Container(
-                            height: 160.0,
-                            width: MediaQuery.of(context).size.width - 20,
-                            decoration: new BoxDecoration(
-                              color: const Color(0xff7c94b6),
-                              image: new DecorationImage(
-                                image: new ExactAssetImage(_image.path),
-                                fit: BoxFit.contain,
-                              ),
-                              borderRadius: new BorderRadius.all(
-                                  const Radius.circular(0.0)),
-                            ),
+                      child: new SizedBox(
+                    height: 200.0,
+                    width: 300.0,
+                    child: galleryFile == null
+                        ? new Text('Sorry nothing selected!!')
+                        : new Image.file(
+                            galleryFile,
+                            width: MediaQuery.of(context).size.width - 30,
                           ),
-                  ),
+                  )),
                   SizedBox(
                     height: 10,
                   ),
@@ -115,7 +110,8 @@ class _AddProdukState extends State<AddProduk> {
                       ),
                       RaisedButton.icon(
                         onPressed: () {
-                          chooseImage(ImageSource.gallery);
+                          //chooseImage(ImageSource.gallery);
+                          imageSelectorGallery();
                         },
                         icon: Icon(Icons.add),
                         label: Text("Pilih gambar"),
@@ -136,6 +132,7 @@ class _AddProdukState extends State<AddProduk> {
                     height: 10,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: _halaman,
                     decoration: InputDecoration(
                       hintText: "Jumlah halaman",
@@ -149,6 +146,7 @@ class _AddProdukState extends State<AddProduk> {
                     height: 10,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: _harga,
                     decoration: InputDecoration(
                       hintText: "Harga Buku",
@@ -175,6 +173,7 @@ class _AddProdukState extends State<AddProduk> {
                     height: 10,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: _diskon,
                     decoration: InputDecoration(
                       hintText: "Diskon Buku",
@@ -314,8 +313,8 @@ class _AddProdukState extends State<AddProduk> {
     String timestamp = date.toString();
 
     StorageReference storageReference =
-        FirebaseStorage.instance.ref().child('Images/$timestamp.jpeg');
-    StorageUploadTask uploadTask = storageReference.putFile(_image);
+        FirebaseStorage.instance.ref().child('Images/$timestamp.jpeg}');
+    StorageUploadTask uploadTask = storageReference.putFile(galleryFile);
 
 //    StorageReference storageReferenceFile =
 //        FirebaseStorage.instance.ref().child("Files/$timestamp.pdf");
@@ -339,7 +338,6 @@ class _AddProdukState extends State<AddProduk> {
           _judul.clear();
           _halaman.clear();
           _chapter.clear();
-          _image = null;
         });
         Fluttertoast.showToast(
             msg: "Berhasil menyimpan ${_judul}",
@@ -358,5 +356,26 @@ class _AddProdukState extends State<AddProduk> {
 //      });
 
 //    });
+  }
+
+  imageSelectorGallery() async {
+    galleryFile = await ImagePicker.pickImage(
+      source: ImageSource.gallery,
+      // maxHeight: 50.0,
+      // maxWidth: 50.0,
+    );
+    print("You selected gallery image : " + galleryFile.path);
+    setState(() {});
+  }
+
+  //display image selected from camera
+  imageSelectorCamera() async {
+    cameraFile = await ImagePicker.pickImage(
+      source: ImageSource.camera,
+      //maxHeight: 50.0,
+      //maxWidth: 50.0,
+    );
+    print("You selected camera image : " + cameraFile.path);
+    setState(() {});
   }
 }

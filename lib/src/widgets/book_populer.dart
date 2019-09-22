@@ -18,7 +18,7 @@ class _BookPopulerState extends State<BookPopuler> {
         children: <Widget>[
           Container(
             height: 200.0,
-            width: 340.0,
+            width: MediaQuery.of(context).size.width - 20,
             child: Image.network(
               widget.book.imagePath,
               fit: BoxFit.cover,
