@@ -16,14 +16,16 @@ class AddProduk extends StatefulWidget {
 }
 
 class _AddProdukState extends State<AddProduk> {
-  String _judul = "",
-      _deskripsi = "",
-      _harga = "",
-      _rating,
-      _halaman = "",
-      _penulis = "",
-      _chapter = "",
-      _diskon = "";
+  TextEditingController _judul = TextEditingController();
+  TextEditingController _deskripsi = TextEditingController();
+  TextEditingController _harga = TextEditingController();
+  TextEditingController _rating = TextEditingController();
+  TextEditingController _halaman = TextEditingController();
+  TextEditingController _penulis = TextEditingController();
+  TextEditingController _chapter = TextEditingController();
+  TextEditingController _diskon = TextEditingController();
+
+  bool progresActive = false;
   bool fileIsPicked = false;
   File _image, _file;
   String _uploadedFileURL;
@@ -109,18 +111,14 @@ class _AddProdukState extends State<AddProduk> {
                 ],
               ),
               TextField(
-                onChanged: (val) {
-                  _judul = val;
-                },
+                controller: _judul,
                 decoration: InputDecoration(hintText: "Judul"),
               ),
               SizedBox(
                 height: 10,
               ),
               TextField(
-                onChanged: (val) {
-                  _halaman = val;
-                },
+                controller: _halaman,
                 decoration: InputDecoration(hintText: "Jumlah Halaman"),
                 keyboardType: TextInputType.number,
               ),
@@ -128,9 +126,7 @@ class _AddProdukState extends State<AddProduk> {
                 height: 10,
               ),
               TextField(
-                onChanged: (val) {
-                  _harga = val;
-                },
+                controller: _harga,
                 decoration: InputDecoration(
                   hintText: "Harga Buku",
                 ),
@@ -140,9 +136,7 @@ class _AddProdukState extends State<AddProduk> {
                 height: 10,
               ),
               TextField(
-                onChanged: (val) {
-                  _deskripsi = val;
-                },
+                controller: _deskripsi,
                 decoration: InputDecoration(hintText: "Deskripsi"),
               ),
               SizedBox(

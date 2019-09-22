@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class OrderCard extends StatefulWidget {
   final Minat minat;
   final String uid;
+
   OrderCard({this.minat, this.uid});
   _OrderCardState createState() => _OrderCardState();
 }
