@@ -61,9 +61,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _books[_books.indexOf(datalama)] = Book.fromSnapshot(event.snapshot);
     });
-//    setState(() {
-//      _books.add(Book.fromSnapshot(event.snapshot));
-//    });
   }
 
   @override

@@ -25,170 +25,249 @@ class _AddProdukState extends State<AddProduk> {
   TextEditingController _chapter = TextEditingController();
   TextEditingController _diskon = TextEditingController();
 
-  bool progresActive = false;
+  bool _progressActive = false;
   bool fileIsPicked = false;
   File _image, _file;
   String _uploadedFileURL;
   String _uoloadedImageUrl;
   String dropdownValue = 'Pilih Kategori';
   FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      _progressActive = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("tambah barang"),
       ),
-      body: Container(
-        padding: EdgeInsets.all(12),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: _image == null
-                    ? Text(
-                        "Gagal mengambil gambar",
-                        textAlign: TextAlign.center,
-                      )
-                    : new Container(
-                        height: 160.0,
-                        width: MediaQuery.of(context).size.width - 20,
-                        decoration: new BoxDecoration(
-                          color: const Color(0xff7c94b6),
-                          image: new DecorationImage(
-                            image: new ExactAssetImage(_image.path),
-                            fit: BoxFit.contain,
-                          ),
-                          borderRadius:
-                              new BorderRadius.all(const Radius.circular(0.0)),
-                        ),
-                      ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(12),
+            child: SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: _image == null
+                        ? Text(
+                            "Gagal mengambil gambar",
+                            textAlign: TextAlign.center,
+                          )
+                        : new Container(
+                            height: 160.0,
+                            width: MediaQuery.of(context).size.width - 20,
+                            decoration: new BoxDecoration(
+                              color: const Color(0xff7c94b6),
+                              image: new DecorationImage(
+                                image: new ExactAssetImage(_image.path),
+                                fit: BoxFit.contain,
+                              ),
+                              borderRadius: new BorderRadius.all(
+                                  const Radius.circular(0.0)),
+                            ),
+                          ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: Colors.deepPurple),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownValue = newValue;
+                          });
+                        },
+                        items: <String>[
+                          'Pilih Kategori',
+                          'Edukasi',
+                          'Biografi',
+                          'Sejarah & Budaya',
+                          'Majalah',
+                          'Surat Kabar'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      RaisedButton.icon(
+                        onPressed: () {
+                          chooseImage(ImageSource.gallery);
+                        },
+                        icon: Icon(Icons.add),
+                        label: Text("Pilih gambar"),
+                      ),
+                    ],
+                  ),
+                  TextFormField(
+                    controller: _judul,
+                    decoration: InputDecoration(
+                      hintText: "Judul Buku",
+                      hintStyle: TextStyle(
+                        color: Color(0xFFBDC2CB),
+                        fontSize: 18.0,
+                      ),
                     ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        dropdownValue = newValue;
-                      });
-                    },
-                    items: <String>[
-                      'Pilih Kategori',
-                      'Edukasi',
-                      'Biografi',
-                      'Sejarah & Budaya',
-                      'Majalah',
-                      'Surat Kabar'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _halaman,
+                    decoration: InputDecoration(
+                      hintText: "Jumlah halaman",
+                      hintStyle: TextStyle(
+                        color: Color(0xFFBDC2CB),
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _harga,
+                    decoration: InputDecoration(
+                      hintText: "Harga Buku",
+                      hintStyle: TextStyle(
+                        color: Color(0xFFBDC2CB),
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _deskripsi,
+                    decoration: InputDecoration(
+                      hintText: "Deskripsi Buku",
+                      hintStyle: TextStyle(
+                        color: Color(0xFFBDC2CB),
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _diskon,
+                    decoration: InputDecoration(
+                      hintText: "Diskon Buku",
+                      hintStyle: TextStyle(
+                        color: Color(0xFFBDC2CB),
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    controller: _penulis,
+                    decoration: InputDecoration(
+                      hintText: "Nama Penulis",
+                      hintStyle: TextStyle(
+                        color: Color(0xFFBDC2CB),
+                        fontSize: 18.0,
+                      ),
+                    ),
                   ),
                   RaisedButton.icon(
                     onPressed: () {
-                      chooseImage(ImageSource.gallery);
+                      if (val()) {
+                        Fluttertoast.showToast(
+                            msg: "Mohon Isi Semua Field",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIos: 1,
+                            backgroundColor: Colors.red[500],
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        setState(() {
+                          this._progressActive = true;
+                        });
+                        uploadFile();
+                      }
                     },
                     icon: Icon(Icons.add),
-                    label: Text("Pilih gambar"),
+                    label: Text("Simpan"),
                   ),
                 ],
               ),
-              TextField(
-                controller: _judul,
-                decoration: InputDecoration(hintText: "Judul"),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: _halaman,
-                decoration: InputDecoration(hintText: "Jumlah Halaman"),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: _harga,
-                decoration: InputDecoration(
-                  hintText: "Harga Buku",
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: _deskripsi,
-                decoration: InputDecoration(hintText: "Deskripsi"),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                onChanged: (val) {
-                  _diskon = val;
-                },
-                decoration: InputDecoration(hintText: "Diskon"),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                onChanged: (val) {
-                  _penulis = val;
-                },
-                decoration: InputDecoration(hintText: "Penulis"),
-              ),
-              RaisedButton.icon(
-                onPressed: () {
-                  if (val()) {
-                    Fluttertoast.showToast(
-                        msg: "Mohon Isi Semua Field",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.TOP,
-                        timeInSecForIos: 1,
-                        backgroundColor: Colors.red[500],
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  } else {
-                    uploadFile();
-                  }
-                },
-                icon: Icon(Icons.add),
-                label: Text("Simpan"),
-              ),
-            ],
+            ),
           ),
-        ),
+          _progressActive
+              ? SafeArea(
+                  child: Scaffold(
+                    backgroundColor: Colors.grey.withOpacity(0.5),
+                    body: Center(
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(1.0, 2.0),
+                              blurRadius: 10.0,
+                            ),
+                          ],
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            Text("Mohon Tunggu"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Center(),
+        ],
       ),
     );
   }
 
   bool val() {
-    return _judul.isEmpty ||
-        _deskripsi.isEmpty ||
-        _halaman.isEmpty ||
-        _harga.isEmpty ||
-        _diskon.isEmpty ||
-        _penulis.isEmpty ||
+    return _judul.text.isEmpty ||
+        _deskripsi.text.isEmpty ||
+        _halaman.text.isEmpty ||
+        _harga.text.isEmpty ||
+        _diskon.text.isEmpty ||
+        _penulis.text.isEmpty ||
         _image == null ||
         dropdownValue == "Pilih Kategori";
   }
@@ -197,16 +276,16 @@ class _AddProdukState extends State<AddProduk> {
     FirebaseUser user = await _auth.currentUser();
 
     Book book = new Book(
-        name: _judul,
+        name: _judul.text,
         imagePath: _uoloadedImageUrl,
         rating: 0,
-        harga: int.parse(_harga),
-        diskon: int.parse(_diskon),
+        harga: int.parse(_harga.text),
+        diskon: int.parse(_diskon.text),
         category: dropdownValue,
-        chapter: _chapter,
-        deskripsi: _deskripsi,
-        halaman: int.parse(_halaman),
-        penulis: _penulis);
+        chapter: _chapter.text,
+        deskripsi: _deskripsi.text,
+        halaman: int.parse(_halaman.text),
+        penulis: _penulis.text);
     FirebaseDatabase.instance
         .reference()
         .child("BUKU")
@@ -251,6 +330,17 @@ class _AddProdukState extends State<AddProduk> {
         _uoloadedImageUrl = fileURL;
       });
       addProduk().then((_) {
+        setState(() {
+          _progressActive = false;
+          _penulis.clear();
+          _diskon.clear();
+          _deskripsi.clear();
+          _harga.clear();
+          _judul.clear();
+          _halaman.clear();
+          _chapter.clear();
+          _image = null;
+        });
         Fluttertoast.showToast(
             msg: "Berhasil menyimpan ${_judul}",
             toastLength: Toast.LENGTH_SHORT,
